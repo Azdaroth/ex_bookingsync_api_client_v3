@@ -12,7 +12,9 @@ defmodule BookingsyncApiClientV3.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       preferred_cli_env: [
         vcr: :test, "vcr.delete": :test, "vcr.check": :test, "vcr.show": :test
-      ]
+      ],
+      description: description,
+      package: package
     ]
   end
 
@@ -42,6 +44,21 @@ defmodule BookingsyncApiClientV3.Mixfile do
 
   defp elixirc_paths(:test), do: ["lib", "test/test_helpers"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp description do
+    """
+    Elixir BookingSync (https://www.bookingsync.com) API v3 client. Find more at: http://developers.bookingsync.com
+    """
+  end
+
+  defp package do
+    # These are the default files included in the package
+    [
+      maintainers: ["Karol Galanciak"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/Azdaroth/ex_bookingsync_api_client_v3"}
+    ]
+  end
 end
 
 
