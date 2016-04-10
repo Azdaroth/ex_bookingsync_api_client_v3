@@ -1,0 +1,37 @@
+[
+  {
+    "request": {
+      "body": "{\"clients\":[{\"fullname\":\"some updated fullname\"}]}",
+      "headers": {
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "patch",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/clients/101"
+    },
+    "response": {
+      "body": "{\"links\":{\"clients.account\":\"http://bookingsync.dev/api/v3/accounts/{clients.account}\"},\"clients\":[{\"links\":{\"account\":1},\"id\":101,\"addresses\":[],\"emails\":[],\"phones\":[],\"created_at\":\"2016-04-09T17:51:38Z\",\"updated_at\":\"2016-04-09T21:31:45Z\",\"fullname\":\"some updated fullname\",\"notes\":null,\"preferred_locale\":null,\"passport\":null}]}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460239200",
+        "X-RateLimit-Remaining": "991",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "ETag": "\"b47d900b1e952f6073c1ffe0d294099d\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=71447e81-5a9b-4fa8-98ab-0c2dcf7d6bc9; path=/; expires=Mon, 09 Apr 2018 21:31:45 -0000",
+        "X-Request-Id": "cff727a3-8f8d-447c-8ce1-06ebff0121dc",
+        "X-Runtime": "0.176758",
+        "Date": "Sat, 09 Apr 2016 21:31:45 GMT",
+        "Connection": "close"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

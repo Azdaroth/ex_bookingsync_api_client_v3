@@ -1,0 +1,39 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/bathrooms/1,39"
+    },
+    "response": {
+      "body": "{\"links\":{\"bathrooms.rental\":\"http://bookingsync.dev/api/v3/rentals/{bathrooms.rental}\"},\"bathrooms\":[{\"links\":{\"rental\":1},\"id\":1,\"name\":{\"en\":\"Bathroom 1\",\"fr\":\"Chambre 1\"},\"wc_count\":0,\"shower_count\":0,\"bath_count\":0,\"created_at\":\"2015-08-18T15:08:49Z\",\"updated_at\":\"2015-08-18T15:08:49Z\"},{\"links\":{\"rental\":1},\"id\":39,\"name\":{\"en\":\"some awesome bathroom\"},\"wc_count\":0,\"shower_count\":0,\"bath_count\":0,\"created_at\":\"2016-04-09T20:06:17Z\",\"updated_at\":\"2016-04-09T20:06:18Z\"}],\"meta\":{}}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460242800",
+        "X-RateLimit-Remaining": "997",
+        "Link": "<http://bookingsync.dev/api/v3/bathrooms/1,39?page=1>; rel=\"first\", <http://bookingsync.dev/api/v3/bathrooms/1,39?page=1>; rel=\"last\"",
+        "X-Total-Pages": "1",
+        "X-Total-Count": "2",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "ETag": "\"b2f391613113a091b7e5b158bedd0da7\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=ec43629e-05bf-47e0-9017-af18796e3d21; path=/; expires=Mon, 09 Apr 2018 22:19:31 -0000",
+        "X-Request-Id": "21a2c14c-d269-4b63-8afc-f4084ba78edc",
+        "X-Runtime": "0.148115",
+        "Date": "Sat, 09 Apr 2016 22:19:31 GMT",
+        "Connection": "close"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

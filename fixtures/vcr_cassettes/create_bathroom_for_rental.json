@@ -1,0 +1,38 @@
+[
+  {
+    "request": {
+      "body": "{\"bathrooms\":[{\"name_en\":\"some awesome bathroom\"}]}",
+      "headers": {
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/rentals/1/bathrooms"
+    },
+    "response": {
+      "body": "{\"links\":{\"bathrooms.rental\":\"http://bookingsync.dev/api/v3/rentals/{bathrooms.rental}\"},\"bathrooms\":[{\"links\":{\"rental\":1},\"id\":39,\"name\":{\"en\":\"some awesome bathroom\"},\"wc_count\":0,\"shower_count\":0,\"bath_count\":0,\"created_at\":\"2016-04-09T20:06:17Z\",\"updated_at\":\"2016-04-09T20:06:17Z\"}],\"meta\":{}}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460235600",
+        "X-RateLimit-Remaining": "992",
+        "Location": "http://bookingsync.dev/api/v3/bathrooms/39",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "ETag": "\"deeda375f09664080ffb590d417e2d59\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=4b1b076e-a81b-4032-b883-9db8ecbb36bd; path=/; expires=Mon, 09 Apr 2018 20:06:17 -0000",
+        "X-Request-Id": "80ff4523-bfd4-4b6c-9bbc-9199a2d910c1",
+        "X-Runtime": "1.778311",
+        "Date": "Sat, 09 Apr 2016 20:06:18 GMT",
+        "Connection": "close"
+      },
+      "status_code": 201,
+      "type": "ok"
+    }
+  }
+]

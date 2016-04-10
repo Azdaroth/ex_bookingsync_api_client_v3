@@ -1,0 +1,39 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/rentals/1"
+    },
+    "response": {
+      "body": "{\"links\":{\"rentals.account\":\"http://bookingsync.dev/api/v3/accounts/{rentals.account}\",\"rentals.availability\":\"http://bookingsync.dev/api/v3/availabilities/{rentals.availability}\",\"rentals.destination\":\"http://bookingsync.dev/api/v3/destinations/{rentals.destination}\",\"rentals.rates_table\":\"http://bookingsync.dev/api/v3/rates_tables/{rentals.rates_table}\",\"rentals.rental_agreement\":\"http://bookingsync.dev/api/v3/rental_agreements/{rentals.rental_agreement}\",\"rentals.rental_cancelation_policy\":\"http://bookingsync.dev/api/v3/rental_cancelation_policies/{rentals.rental_cancelation_policy}\",\"rentals.photos\":\"http://bookingsync.dev/api/v3/photos/{rentals.photos}\",\"rentals.reviews\":\"http://bookingsync.dev/api/v3/reviews/{rentals.reviews}\",\"rentals.special_offers\":\"http://bookingsync.dev/api/v3/special_offers/{rentals.special_offers}\",\"rentals.rates\":\"http://bookingsync.dev/api/v3/rates/{rentals.rates}\",\"rentals.rentals_amenities\":\"http://bookingsync.dev/api/v3/rentals_amenities/{rentals.rentals_amenities}\",\"rentals.rentals_fees\":\"http://bookingsync.dev/api/v3/rentals_fees/{rentals.rentals_fees}\",\"rentals.bathrooms\":\"http://bookingsync.dev/api/v3/bathrooms/{rentals.bathrooms}\",\"rentals.bedrooms\":\"http://bookingsync.dev/api/v3/bedrooms/{rentals.bedrooms}\",\"rentals.rentals_tags\":\"http://bookingsync.dev/api/v3/rentals_tags/{rentals.rentals_tags}\"},\"rentals\":[{\"links\":{\"account\":1,\"availability\":1,\"destination\":18,\"rates_table\":7,\"rental_agreement\":11,\"rental_cancelation_policy\":5,\"photos\":[9],\"reviews\":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],\"special_offers\":[1],\"rates\":[],\"rentals_amenities\":[10,11,12],\"rentals_fees\":[1,2,3,4,5,6,36],\"bathrooms\":[1,2,3,20,21,22,23,19,39],\"bedrooms\":[2,3,4,5],\"rentals_tags\":[1]},\"id\":1,\"name\":\"Chalet 1 \",\"headline\":{\"en\":\"Super Headline\"},\"summary\":{\"en\":\"Super summary\"},\"description\":{\"en\":\"Complete description\",\"fr\":\"```\\r\\nsdfsfd fr\\r\\n```\"},\"rental_type\":\"villa\",\"downpayment\":30,\"bedrooms_count\":4,\"sleeps\":7,\"sleeps_max\":null,\"bathrooms_count\":9,\"surface\":120,\"surface_unit\":\"metric\",\"bookable_online\":true,\"bookable_on_request\":true,\"min_price\":\"100.0\",\"max_price\":\"100.0\",\"price_kind\":\"nightly\",\"currency\":\"EUR\",\"price_public_notes\":{\"en\":\"Public notes in english\"},\"lat\":45.02,\"lng\":6.6,\"city\":\"Nevache\",\"state\":null,\"country_code\":\"FR\",\"contact_name\":\"Contact Fullname\",\"reviews_count\":36,\"reviews_average_rating\":\"4.6\",\"published_at\":\"2016-01-22T11:24:40Z\",\"created_at\":\"2015-04-03T13:23:20Z\",\"updated_at\":\"2016-04-09T21:37:19Z\",\"address1\":null,\"address2\":null,\"zip\":null,\"checkin_time\":16,\"checkout_time\":10,\"initial_price\":null,\"final_price\":null,\"position\":1,\"base_rate\":\"100.0\",\"base_rate_kind\":\"nightly\",\"absolute_min_price\":\"0.0\",\"notes\":null,\"stories_count\":null,\"floor\":\"\",\"damage_deposit\":\"100.0\",\"owner_fullname\":null,\"owner_email\":null,\"owner_notes\":null,\"checkin_details\":{},\"checkout_details\":{},\"balance_due\":30,\"website_url\":{}}],\"meta\":{}}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460242800",
+        "X-RateLimit-Remaining": "998",
+        "Link": "<http://bookingsync.dev/api/v3/rentals/1?page=1>; rel=\"first\", <http://bookingsync.dev/api/v3/rentals/1?page=1>; rel=\"last\"",
+        "X-Total-Pages": "1",
+        "X-Total-Count": "1",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "ETag": "\"afc419c76dd82617c597226814989b74\"",
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=f5d3d8ac-61c5-41da-87cd-00f5392b4ac8; path=/; expires=Mon, 09 Apr 2018 22:11:19 -0000",
+        "X-Request-Id": "7f71a456-5043-416e-97fd-e9d9df4d972f",
+        "X-Runtime": "1.834683",
+        "Date": "Sat, 09 Apr 2016 22:11:21 GMT",
+        "Connection": "close"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
