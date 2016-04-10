@@ -14,7 +14,9 @@ defmodule BookingsyncApiClientV3.Mixfile do
         vcr: :test, "vcr.delete": :test, "vcr.check": :test, "vcr.show": :test
       ],
       description: description,
-      package: package
+      package: package,
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test]
     ]
   end
 
@@ -38,7 +40,8 @@ defmodule BookingsyncApiClientV3.Mixfile do
     [
       {:httpotion, "~> 2.2.0"},
       {:json, "~> 0.3.0"},
-      {:exvcr, "~> 0.7", only: :test}
+      {:exvcr, "~> 0.7", only: :test},
+      {:excoveralls, "~> 0.4", only: :test}
     ]
   end
 
