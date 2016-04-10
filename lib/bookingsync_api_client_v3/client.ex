@@ -1,4 +1,8 @@
 defmodule BookingsyncApiClientV3.Client do
+  defdelegate generate_url(base_url, scope, scope_id, endpoint), to: BookingsyncApiClientV3.UrlAssembler
+  defdelegate generate_url(base_url, endpoint, id), to: BookingsyncApiClientV3.UrlAssembler
+  defdelegate generate_url(base_url, endpoint), to: BookingsyncApiClientV3.UrlAssembler
+
   def get(data, endpoint) do
     result = perform_get_for_index_action(data, endpoint) |> autopaginate(data, %{})
     {:ok, result}
@@ -54,18 +58,6 @@ defmodule BookingsyncApiClientV3.Client do
   defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, scope, scope_id, endpoint, body) do
     { :ok, encoded_body } = body |> JSON.encode
     HTTPotion.request method, generate_url(base_url, scope, scope_id, endpoint), [body: encoded_body, headers: headers, timeout: timeout]
-  end
-
-  defp generate_url(base_url, scope, scope_id, endpoint) do
-    BookingsyncApiClientV3.UrlAssembler.generate_url(base_url, scope, scope_id, endpoint)
-  end
-
-  defp generate_url(base_url, endpoint, id) do
-    BookingsyncApiClientV3.UrlAssembler.generate_url(base_url, endpoint, id)
-  end
-
-  defp generate_url(base_url, endpoint) do
-    BookingsyncApiClientV3.UrlAssembler.generate_url(base_url, endpoint)
   end
 
   defp authorization_header(token) do
