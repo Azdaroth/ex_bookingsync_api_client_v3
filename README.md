@@ -4,7 +4,7 @@ Elixir BookingSync (https://www.bookingsync.com) API v3 client. Find more at: ht
 
 ## Installation
 
-1. Add :bookingsync_api_client_v3 to your list of dependencies in `mix.exs`:
+- Add :bookingsync_api_client_v3 to your list of dependencies in `mix.exs`:
 
 ``` elixir
 def deps do
@@ -12,7 +12,7 @@ def deps do
 end
 ```
 
-2. Ensure :bookingsync_api_client_v3 is started before your application:
+- Ensure :bookingsync_api_client_v3 is started before your application:
 
 ``` elixir
 def application do
@@ -20,7 +20,7 @@ def application do
 end
 ```
 
-3. Fetch dependencies:
+- Fetch dependencies:
 
 ```
 mix deps.get
@@ -35,7 +35,7 @@ For every request you will need to pass `BookingsyncApiClientV3.Data` struct. He
 ``` iex
 %BookingsyncApiClientV3.Data{
   base_url: "https://bookingsync.dev", # required
-  oauth_token: "MY_SECRET_TOKEN", # required
+  oauth_token: "MY_ACCESS_TOKEN", # required
   timeout: 50_000 # not required, 10_000 (10 s) is the default value
 }
 ```
@@ -56,7 +56,7 @@ The result for any request is one of the following options:
 Here are some examples of requests:
 
 ``` iex
-data = %BookingsyncApiClientV3.Data{base_url: "http://bookingsync.dev", oauth_token: "MY_SECRET_TOKEN"}
+data = %BookingsyncApiClientV3.Data{base_url: "http://bookingsync.dev", oauth_token: "MY_ACCESS_TOKEN"}
 
 # index action, performs autopagination if `next` are available
 data |> BookingsyncApiClientV3.Client.get("bookings")
@@ -69,6 +69,9 @@ data |> BookingsyncApiClientV3.Client.get("clients", 96)
 
 # create action, create client with given payload
 data |> BookingsyncApiClientV3.Client.post("clients", %{clients: [%{fullname: "Rich Piana"}]})
+
+# create action with scope, create bathroom for rental with id 1 with given payload
+data |> BookingsyncApiClientV3.Client.post("rentals", 1, "bathrooms", %{bathrooms: [%{name_en: bathroom_name}]})
 
 # update action, update client with id 98 with given payload
 data |> BookingsyncApiClientV3.Client.patch("clients", 98, %{clients: [%{fullname: "Updated fullname"}]})
@@ -107,13 +110,13 @@ mix test
 If you need to record any VCR cassette, you need to provide `BOOKINGSYNC_OAUTH_ACCESS_TOKEN` ENV variable:
 
 ```
-BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_SECRET_TOKEN mix test
+BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN mix test
 ```
 
 By default `http://bookingsync.dev` URL will be used, which can be customized with `BOOKINGSYNC_URL` ENV variable:
 
 ```
-BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_SECRET_TOKEN BOOKINGSYNC_URL=https://bookingsync.dev mix test
+BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN BOOKINGSYNC_URL=https://bookingsync.dev mix test
 ```
 
 - Submit pull request.
