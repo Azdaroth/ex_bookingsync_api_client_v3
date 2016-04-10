@@ -53,7 +53,7 @@ The result for any request is one of the following options:
 3. `meta` - map with meta data from response
 4. `resource_name` - name of the resource, e.g. "bookings"
 
-Here some examples of requests:
+Here are some examples of requests:
 
 ``` iex
 data = %BookingsyncApiClientV3.Data{base_url: "http://bookingsync.dev", oauth_token: "MY_SECRET_TOKEN"}
