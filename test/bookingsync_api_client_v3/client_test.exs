@@ -16,6 +16,18 @@ defmodule BookingsyncApiClientV3.ClientTest do
     end
   end
 
+  test ".get for index action performs autopagination appending query params to every url" do
+    use_cassette "get_bookings_autopagination_with_query_params", match_requests_on: [:query] do
+      query_params = %{start_at: "2016-10-10"}
+      {:ok, _} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings", query_params)
+
+      expected_urls = ["#{base_url}/api/v3/bookings?start_at=2016-10-10",
+        "#{base_url}/api/v3/bookings?page=2&start_at=2016-10-10"]
+      assert requested_urls_from_cassette("get_bookings_autopagination_with_query_params") == expected_urls
+      assert request_methods_from_cassette("get_bookings_autopagination_with_query_params") == ["get", "get"]
+    end
+  end
+
   test ".get for index action returns Result with resource as list, resource name, links and meta" do
     use_cassette "get_bookings_autopagination", match_requests_on: [:query] do
       {:ok, %BookingsyncApiClientV3.Result{

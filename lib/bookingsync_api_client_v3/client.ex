@@ -1,10 +1,18 @@
 defmodule BookingsyncApiClientV3.Client do
   defdelegate generate_url(base_url, scope, scope_id, endpoint), to: BookingsyncApiClientV3.UrlAssembler
-  defdelegate generate_url(base_url, endpoint, id), to: BookingsyncApiClientV3.UrlAssembler
+  defdelegate generate_url(base_url, endpoint, id_or_query_params), to: BookingsyncApiClientV3.UrlAssembler
   defdelegate generate_url(base_url, endpoint), to: BookingsyncApiClientV3.UrlAssembler
 
   def get(data, endpoint) do
-    result = perform_get_for_index_action(data, endpoint) |> autopaginate(data, %{})
+    result = perform_get_for_index_action(data, endpoint, %{}) |> autopaginate(data, %{}, %{})
+    case result do
+      {:error, status_code, body} -> {:error, status_code, body}
+      _                           -> {:ok, result}
+    end
+  end
+
+  def get(data, endpoint, query_params) when is_map(query_params) do
+    result = perform_get_for_index_action(data, endpoint, query_params) |> autopaginate(data, %{}, query_params)
     case result do
       {:error, status_code, body} -> {:error, status_code, body}
       _                           -> {:ok, result}
@@ -55,15 +63,14 @@ defmodule BookingsyncApiClientV3.Client do
                                   oauth_token: oauth_token,
                                   timeout: timeout
                                 }, url) do
-    HTTPotion.request method, url, [headers: authorization_header(oauth_token),
-      timeout: timeout]
+    HTTPotion.request method, url, [headers: authorization_header(oauth_token), timeout: timeout]
   end
 
   defp request(method, %BookingsyncApiClientV3.Data{
                           base_url: base_url,
                           timeout: timeout
-                        }, headers, endpoint) do
-    HTTPotion.request method, generate_url(base_url, endpoint),
+                        }, headers, endpoint, query_params: query_params) do
+    HTTPotion.request method, generate_url(base_url, endpoint, query_params: query_params),
       [headers: headers, timeout: timeout]
   end
 
@@ -88,7 +95,7 @@ defmodule BookingsyncApiClientV3.Client do
                           base_url: base_url,
                           timeout: timeout
                         }, headers, endpoint, id, body) when is_integer(id) do
-    { :ok, encoded_body } = body |> JSON.encode
+    {:ok, encoded_body} = body |> JSON.encode
     HTTPotion.request method, generate_url(base_url, endpoint, id), [body: encoded_body,
     headers: headers, timeout: timeout]
   end
@@ -97,7 +104,7 @@ defmodule BookingsyncApiClientV3.Client do
                           base_url: base_url,
                           timeout: timeout
                         }, headers, scope, scope_id, endpoint, body) do
-    { :ok, encoded_body } = body |> JSON.encode
+    {:ok, encoded_body} = body |> JSON.encode
     HTTPotion.request method, generate_url(base_url, scope, scope_id, endpoint), [
       body: encoded_body, headers: headers, timeout: timeout]
   end
@@ -112,14 +119,14 @@ defmodule BookingsyncApiClientV3.Client do
 
   defp perform_get_for_index_action(data = %BookingsyncApiClientV3.Data{
                                               oauth_token: oauth_token
-                                            }, endpoint) do
-    request(:get, data, authorization_header(oauth_token), endpoint)
+                                            }, endpoint, query_params) do
+    request(:get, data, authorization_header(oauth_token), endpoint, query_params: query_params)
   end
 
   defp autopaginate(response = %HTTPotion.Response{
                                 headers: %HTTPotion.Headers{hdrs: headers},
                                 status_code: 200
-                              }, data, current_body) do
+                              }, data, current_body, query_params) do
     next_link = headers
     |> extract_link
     |> format_next_link
@@ -132,11 +139,12 @@ defmodule BookingsyncApiClientV3.Client do
     case next_link do
       nil  -> BookingsyncApiClientV3.Deserializer.deserialize(updated_body,
                 updated_body[resource_name], resource_name)
-      _    -> request_with_url(:get, data, next_link) |> autopaginate(data, updated_body)
+      _    -> request_with_url(:get, data, next_link)
+              |> autopaginate(data, updated_body, query_params)
     end
   end
 
-  defp autopaginate(response = %HTTPotion.Response{}, _, _) do
+  defp autopaginate(response = %HTTPotion.Response{}, _, _, _) do
     handle_error(response)
   end
 
