@@ -1,30 +1,32 @@
 defmodule BookingsyncApiClientV3.Client do
   def get(data, endpoint) do
-    perform_get_for_index_action(data, endpoint) |> autopaginate(data, %{})
+    result = perform_get_for_index_action(data, endpoint) |> autopaginate(data, %{})
+    {:ok, result}
   end
 
   def get(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id) do
-    request(:get, data, authorization_header(oauth_token), endpoint, id)
-    |> deserialize_one
+    response = request(:get, data, authorization_header(oauth_token), endpoint, id)
+    {:ok, response |> deserialize_one}
   end
 
   def post(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, body) do
-    request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, body)
-    |> deserialize_one
+    response = request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, body)
+    {:ok, response |> deserialize_one}
   end
 
   def post(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, scope, scope_id, endpoint, body) do
-    request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), scope, scope_id, endpoint, body)
-    |> deserialize_one
+    response = request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), scope, scope_id, endpoint, body)
+    {:ok, response |> deserialize_one}
   end
 
   def patch(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id, body) do
-    request(:patch, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id, body)
-    |> deserialize_one
+    response = request(:patch, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id, body)
+    {:ok, response |> deserialize_one}
   end
 
   def delete(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id) do
-    request :delete, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id
+    response = request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id)
+    :ok
   end
 
   def request_with_url(method, %BookingsyncApiClientV3.Data{oauth_token: oauth_token, timeout: timeout}, url) do

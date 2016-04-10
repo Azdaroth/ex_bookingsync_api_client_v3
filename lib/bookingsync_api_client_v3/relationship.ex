@@ -9,8 +9,8 @@ defmodule BookingsyncApiClientV3.Relationship do
     { :ok, url} = links |> extract_url_for_relationship(resource_name, relationship_name)
                         |> populate_url(relationship_id_or_ids)
 
-    BookingsyncApiClientV3.Client.request_with_url(:get, data, url)
-    |> deserialize(relationship_id_or_ids)
+    response = BookingsyncApiClientV3.Client.request_with_url(:get, data, url)
+    {:ok, response |> deserialize(relationship_id_or_ids)}
   end
 
   defp extract_url_for_relationship(links, resource_name, relationship_name) do

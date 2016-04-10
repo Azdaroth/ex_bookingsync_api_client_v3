@@ -16,12 +16,12 @@ defmodule BookingsyncApiClientV3.RelationshipTest do
         resource_name: "bookings"
       }
 
-      %BookingsyncApiClientV3.Result{
-        resource: resource,
-        links: links,
-        meta: meta,
-        resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Relationship.from_result(result, "rental")
+      {:ok, %BookingsyncApiClientV3.Result{
+         resource: resource,
+         links: links,
+         meta: meta,
+         resource_name: resource_name
+       }} = data_for_request |> BookingsyncApiClientV3.Relationship.from_result(result, "rental")
 
       assert is_map(resource)
       assert is_map(links)
@@ -48,12 +48,12 @@ defmodule BookingsyncApiClientV3.RelationshipTest do
         resource_name: "rentals"
       }
 
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Relationship.from_result(result, "bathrooms")
+      }} = data_for_request |> BookingsyncApiClientV3.Relationship.from_result(result, "bathrooms")
 
       assert is_list(resource)
       assert resource |> Enum.count == 2

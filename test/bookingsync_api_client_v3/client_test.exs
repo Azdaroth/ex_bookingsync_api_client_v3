@@ -6,7 +6,7 @@ defmodule BookingsyncApiClientV3.ClientTest do
 
   test ".get for index action performs autopagination" do
     use_cassette "get_bookings_autopagination", match_requests_on: [:query] do
-      result = data_for_request |> BookingsyncApiClientV3.Client.get("bookings")
+      {:ok, result} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings")
       # 100 per page
       assert result.resource |> Enum.count > 100
 
@@ -18,12 +18,12 @@ defmodule BookingsyncApiClientV3.ClientTest do
 
   test ".get for index action returns Result with resource as list, resource name, links and meta" do
     use_cassette "get_bookings_autopagination", match_requests_on: [:query] do
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Client.get("bookings")
+      }} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings")
 
       assert is_list(resource)
       assert is_map(links)
@@ -37,12 +37,12 @@ defmodule BookingsyncApiClientV3.ClientTest do
   links and meta" do
     use_cassette "get_booking", match_requests_on: [:query] do
       booking_id = 500
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Client.get("bookings", booking_id)
+      }} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings", booking_id)
 
       refute is_list(resource)
       assert is_map(resource)
@@ -64,12 +64,12 @@ defmodule BookingsyncApiClientV3.ClientTest do
       client_fullname = "Some new client"
       client_payload = %{clients: [%{fullname: client_fullname}]}
 
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Client.post("clients", client_payload)
+      }} = data_for_request |> BookingsyncApiClientV3.Client.post("clients", client_payload)
 
       refute is_list(resource)
       assert is_map(resource)
@@ -92,12 +92,12 @@ defmodule BookingsyncApiClientV3.ClientTest do
       bathroom_name = "some awesome bathroom"
       bathrooms_payload = %{bathrooms: [%{name_en: bathroom_name}]}
 
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Client.post("rentals", rental_id, "bathrooms",
+      }} = data_for_request |> BookingsyncApiClientV3.Client.post("rentals", rental_id, "bathrooms",
         bathrooms_payload)
 
       refute is_list(resource)
@@ -122,12 +122,12 @@ defmodule BookingsyncApiClientV3.ClientTest do
       client_fullname = "some updated fullname"
       client_payload = %{clients: [%{fullname: client_fullname}]}
 
-      %BookingsyncApiClientV3.Result{
+      {:ok, %BookingsyncApiClientV3.Result{
         resource: resource,
         links: links,
         meta: meta,
         resource_name: resource_name
-      } = data_for_request |> BookingsyncApiClientV3.Client.patch("clients", client_id, client_payload)
+      }} = data_for_request |> BookingsyncApiClientV3.Client.patch("clients", client_id, client_payload)
 
       refute is_list(resource)
       assert is_map(resource)
