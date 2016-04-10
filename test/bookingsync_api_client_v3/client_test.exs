@@ -33,6 +33,22 @@ defmodule BookingsyncApiClientV3.ClientTest do
     end
   end
 
+  test ".get for index action returns :error status, error code and raw error message on error
+  when body is not json" do
+    use_cassette "get_non_existent_resources", match_requests_on: [:query] do
+      {:error, 404, raw_response} = data_for_request |> BookingsyncApiClientV3.Client.get("users")
+      assert JSON.decode(raw_response) == {:error, {:unexpected_token, raw_response}}
+    end
+  end
+
+  test ".get for index action returns :error status, error code and
+  deserialized error message when body is josn" do
+    use_cassette "get_bookings_unauthorized", match_requests_on: [:query] do
+      {:error, 401, error_message} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings")
+      assert error_message == %{"errors" => [%{"code" => "unauthorized"}]}
+    end
+  end
+
   test ".get for show action returns Result with resource as singular map, resource name,
   links and meta" do
     use_cassette "get_booking", match_requests_on: [:query] do
@@ -55,6 +71,22 @@ defmodule BookingsyncApiClientV3.ClientTest do
       expected_urls = ["#{base_url}/api/v3/bookings/#{booking_id}"]
       assert requested_urls_from_cassette("get_booking") == expected_urls
       assert request_methods_from_cassette("get_booking") == ["get"]
+    end
+  end
+
+  test ".get for show action returns :error status, error code and raw error message on error
+  when body is not json" do
+    use_cassette "get_non_existent_resource_with_id", match_requests_on: [:query] do
+      {:error, 404, raw_response} = data_for_request |> BookingsyncApiClientV3.Client.get("users", 1)
+      assert JSON.decode(raw_response) == {:error, {:unexpected_token, raw_response}}
+    end
+  end
+
+  test ".get for show action returns :error status, error code and
+  deserialized error message when body is json" do
+    use_cassette "get_booking_unauthorized", match_requests_on: [:query] do
+      {:error, 401, error_message} = data_for_request |> BookingsyncApiClientV3.Client.get("bookings", 1)
+      assert error_message == %{"errors" => [%{"code" => "unauthorized"}]}
     end
   end
 
@@ -82,6 +114,19 @@ defmodule BookingsyncApiClientV3.ClientTest do
       expected_urls = ["#{base_url}/api/v3/clients"]
       assert requested_urls_from_cassette("create_client") == expected_urls
       assert request_methods_from_cassette("create_client") == ["post"]
+    end
+  end
+
+  test ".post returns :error status, error code and deserialized error message when body is json" do
+    use_cassette "create_invalid_rental", match_requests_on: [:query] do
+      rental_payload = %{rentals: [%{name: ""}]}
+      {:error, 422, error_message} = data_for_request |> BookingsyncApiClientV3.Client.post("rentals",
+        rental_payload)
+      assert error_message == %{"errors" =>
+        [
+          %{"code" => "validation_failed", "field" => "name", "title" => "is too short (minimum is 3 characters)"}
+        ]
+      }
     end
   end
 
@@ -115,6 +160,21 @@ defmodule BookingsyncApiClientV3.ClientTest do
     end
   end
 
+   test ".post with scope returns :error status, error code and deserialized error message
+   when body is json" do
+    use_cassette "create_invalid_bathroom", match_requests_on: [:query] do
+      rental_id = 1
+      bathrooms_payload = %{bathrooms: [%{rental_id: rental_id, name_en: ""}]}
+      {:error, 422, error_message} = data_for_request |> BookingsyncApiClientV3.Client.post("rentals",
+        rental_id, "bathrooms", bathrooms_payload)
+      assert error_message == %{"errors" => [
+          %{"code" => "validation_failed", "field" => "name_en", "title" => "can't be blank"},
+          %{"code" => "validation_failed", "field" => "name_en", "title" => "can't be blank"}
+        ]
+      }
+    end
+  end
+
   test ".patch updates resource and returns Result with resource as singular map, resource name,
   links and meta" do
     use_cassette "patch_client", match_requests_on: [:query] do
@@ -143,14 +203,40 @@ defmodule BookingsyncApiClientV3.ClientTest do
     end
   end
 
-  test ".delete destroys resource" do
+  test ".patch returns :error status, error code and deserialized error message
+  when body is json" do
+    use_cassette "patch_client_invalid", match_requests_on: [:query] do
+      client_id = 101
+      client_payload = %{clients: [%{preferred_locale: "invalid"}]}
+      {:error, 422, error_message} = data_for_request |> BookingsyncApiClientV3.Client.patch("clients",
+        client_id, client_payload)
+      assert error_message == %{"errors" => [
+          %{"code" => "validation_failed", "field" => "preferred_locale", "title" => "is not included in the list"},
+        ]
+      }
+    end
+  end
+
+  test ".delete destroys resource returning :ok status" do
     use_cassette "delete_booking", match_requests_on: [:query] do
       booking_id = 735
-      data_for_request |> BookingsyncApiClientV3.Client.delete("bookings", booking_id)
+      result = data_for_request |> BookingsyncApiClientV3.Client.delete("bookings", booking_id)
 
+      assert result == {:ok, ""}
       expected_urls = ["#{base_url}/api/v3/bookings/#{booking_id}"]
       assert requested_urls_from_cassette("delete_booking") == expected_urls
       assert request_methods_from_cassette("delete_booking") == ["delete"]
+    end
+  end
+
+  test ".delete returns :error status, error code and deserialized error message
+  when body is json" do
+    use_cassette "delete_booking_unauthorized", match_requests_on: [:query] do
+      booking_id = 735
+      {:error, 401, error_message} = data_for_request |> BookingsyncApiClientV3.Client.delete(
+        "bookings", booking_id)
+      assert error_message == %{"errors" => [%{"code" => "unauthorized"}]}
+      assert error_message == %{"errors" => [%{"code" => "unauthorized"}]}
     end
   end
 

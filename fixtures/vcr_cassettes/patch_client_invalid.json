@@ -1,0 +1,36 @@
+[
+  {
+    "request": {
+      "body": "{\"clients\":[{\"preferred_locale\":\"invalid\"}]}",
+      "headers": {
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "patch",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/clients/101"
+    },
+    "response": {
+      "body": "{\"errors\":[{\"code\":\"validation_failed\",\"field\":\"preferred_locale\",\"title\":\"is not included in the list\"}]}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460289600",
+        "X-RateLimit-Remaining": "990",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=554445fe-5268-4899-9e23-1bea99bfb7c4; path=/; expires=Tue, 10 Apr 2018 11:58:37 -0000",
+        "X-Request-Id": "b0ad5841-524f-400f-8d78-5772a101e513",
+        "X-Runtime": "0.042785",
+        "Date": "Sun, 10 Apr 2016 11:58:37 GMT",
+        "Connection": "close"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]

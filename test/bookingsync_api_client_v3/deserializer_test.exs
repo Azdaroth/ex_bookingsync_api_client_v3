@@ -73,4 +73,12 @@ defmodule BookingsyncApiClientV3.DeserializerTest do
     returned_body = response |> BookingsyncApiClientV3.Deserializer.extract_body
     assert returned_body == expected_body
   end
+
+  test ".extract_body returns original body from HTTPotion.Response if not a json" do
+    original_body = "<error></error>Lulz, what happened here."
+    response = %HTTPotion.Response{body: original_body}
+    expected_body = original_body
+    returned_body = response |> BookingsyncApiClientV3.Deserializer.extract_body
+    assert returned_body == expected_body
+  end
 end

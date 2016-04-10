@@ -1,0 +1,36 @@
+[
+  {
+    "request": {
+      "body": "{\"rentals\":[{\"name\":\"\"}]}",
+      "headers": {
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/rentals"
+    },
+    "response": {
+      "body": "{\"errors\":[{\"code\":\"validation_failed\",\"field\":\"name\",\"title\":\"is too short (minimum is 3 characters)\"}]}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460289600",
+        "X-RateLimit-Remaining": "994",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=c89d200d-dff7-44ff-adde-047de222b4aa; path=/; expires=Tue, 10 Apr 2018 11:31:52 -0000",
+        "X-Request-Id": "8f5a7cf9-eb18-42cb-8db7-6871163ec394",
+        "X-Runtime": "1.230002",
+        "Date": "Sun, 10 Apr 2016 11:31:53 GMT",
+        "Connection": "close"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]

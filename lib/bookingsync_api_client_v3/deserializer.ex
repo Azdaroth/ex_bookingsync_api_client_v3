@@ -22,8 +22,10 @@ defmodule BookingsyncApiClientV3.Deserializer do
     }
   end
 
-  def extract_body(%HTTPotion.Response{body: json_body}) do
-    {:ok, body_from_response} = json_body |> JSON.decode
-    body_from_response
+  def extract_body(%HTTPotion.Response{body: body}) do
+    case (body |> JSON.decode) do
+      {:ok, body_from_response} -> body_from_response
+      {:error, {_, original_body}} -> original_body
+    end
   end
 end

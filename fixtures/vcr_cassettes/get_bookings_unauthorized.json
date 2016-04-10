@@ -1,0 +1,34 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/bookings"
+    },
+    "response": {
+      "body": "{\"errors\":[{\"code\":\"unauthorized\"}]}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "no-store",
+        "Pragma": "no-cache",
+        "WWW-Authenticate": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN",
+        "Content-Type": "application/json; charset=utf-8",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=58658f82-4a6b-4f7c-8503-95f9fc78b0b5; path=/; expires=Tue, 10 Apr 2018 11:10:19 -0000",
+        "X-Request-Id": "91d2e76c-ab28-4f14-8692-c4e80dc75701",
+        "X-Runtime": "0.215049",
+        "Date": "Sun, 10 Apr 2016 11:10:19 GMT",
+        "Connection": "close"
+      },
+      "status_code": 401,
+      "type": "ok"
+    }
+  }
+]

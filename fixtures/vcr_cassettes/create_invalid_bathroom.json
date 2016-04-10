@@ -1,0 +1,36 @@
+[
+  {
+    "request": {
+      "body": "{\"bathrooms\":[{\"name_en\":\"\",\"rental_id\":1}]}",
+      "headers": {
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer BOOKINGSYNC_OAUTH_ACCESS_TOKEN"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://bookingsync.dev/api/v3/rentals/1/bathrooms"
+    },
+    "response": {
+      "body": "{\"errors\":[{\"code\":\"validation_failed\",\"field\":\"name_en\",\"title\":\"can't be blank\"},{\"code\":\"validation_failed\",\"field\":\"name_en\",\"title\":\"can't be blank\"}]}",
+      "headers": {
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-XSS-Protection": "1; mode=block",
+        "X-Content-Type-Options": "nosniff",
+        "X-RateLimit-Limit": "1000",
+        "X-RateLimit-Reset": "1460289600",
+        "X-RateLimit-Remaining": "992",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "P3P": "CP=\"OTI DSP COR CUR ADMo DEVo TAI PSAi PSDi IVAi IVDi CONi HISi TELi OTPi OUR SAMi OTRo UNRo PUBi IND UNI STA\"",
+        "Set-Cookie": "ahoy_visitor=400e8260-03ae-4490-972c-a22c1b55fe7d; path=/; expires=Tue, 10 Apr 2018 11:41:30 -0000",
+        "X-Request-Id": "44416bad-fef7-44ab-be0a-13f6593303ad",
+        "X-Runtime": "0.044178",
+        "Date": "Sun, 10 Apr 2016 11:41:30 GMT",
+        "Connection": "close"
+      },
+      "status_code": 422,
+      "type": "ok"
+    }
+  }
+]

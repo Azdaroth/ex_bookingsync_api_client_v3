@@ -5,44 +5,50 @@ defmodule BookingsyncApiClientV3.Client do
 
   def get(data, endpoint) do
     result = perform_get_for_index_action(data, endpoint) |> autopaginate(data, %{})
-    {:ok, result}
+    case result do
+      {:error, status_code, body} -> {:error, status_code, body}
+      _                           -> {:ok, result}
+    end
   end
 
   def get(data = %BookingsyncApiClientV3.Data{
                     oauth_token: oauth_token
                   }, endpoint, id) do
-    response = request(:get, data, authorization_header(oauth_token), endpoint, id)
-    {:ok, response |> deserialize_one}
+    request(:get, data, authorization_header(oauth_token), endpoint, id)
+    |> handle_response(200)
   end
 
   def post(data = %BookingsyncApiClientV3.Data{
                     oauth_token: oauth_token
                   }, endpoint, body) do
-    response = request(:post, data,
+    request(:post, data,
       jsonapi_content_type ++ authorization_header(oauth_token), endpoint, body)
-    {:ok, response |> deserialize_one}
+    |> handle_response(201)
   end
 
   def post(data = %BookingsyncApiClientV3.Data{
                     oauth_token: oauth_token
                   }, scope, scope_id, endpoint, body) do
-    response = request(:post, data,
+    request(:post, data,
       jsonapi_content_type ++ authorization_header(oauth_token), scope, scope_id, endpoint, body)
-    {:ok, response |> deserialize_one}
+    |> handle_response(201)
   end
 
   def patch(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id, body) do
-    response = request(:patch, data,
+    request(:patch, data,
       jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id, body)
-    {:ok, response |> deserialize_one}
+    |> handle_response(200)
   end
 
   def delete(data = %BookingsyncApiClientV3.Data{
                       oauth_token: oauth_token
                     }, endpoint, id) do
-    request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token),
+    response = request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token),
       endpoint, id)
-    :ok
+    case response.status_code do
+      204 -> {:ok, ""}
+      _   -> handle_error(response)
+    end
   end
 
   def request_with_url(method, %BookingsyncApiClientV3.Data{
@@ -75,7 +81,7 @@ defmodule BookingsyncApiClientV3.Client do
                         }, headers, endpoint, body) do
     {:ok, encoded_body} = body |> JSON.encode
     HTTPotion.request method, generate_url(base_url, endpoint), [body: encoded_body,
-    headers: headers, timeout: timeout]
+      headers: headers, timeout: timeout]
   end
 
   defp request(method, %BookingsyncApiClientV3.Data{
@@ -104,11 +110,16 @@ defmodule BookingsyncApiClientV3.Client do
     ["Content-Type": "application/vnd.api+json"]
   end
 
-  defp perform_get_for_index_action(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint) do
+  defp perform_get_for_index_action(data = %BookingsyncApiClientV3.Data{
+                                              oauth_token: oauth_token
+                                            }, endpoint) do
     request(:get, data, authorization_header(oauth_token), endpoint)
   end
 
-  defp autopaginate(response = %HTTPotion.Response{headers: %HTTPotion.Headers{hdrs: headers}}, data, current_body) do
+  defp autopaginate(response = %HTTPotion.Response{
+                                headers: %HTTPotion.Headers{hdrs: headers},
+                                status_code: 200
+                              }, data, current_body) do
     next_link = headers
     |> extract_link
     |> format_next_link
@@ -123,6 +134,22 @@ defmodule BookingsyncApiClientV3.Client do
                 updated_body[resource_name], resource_name)
       _    -> request_with_url(:get, data, next_link) |> autopaginate(data, updated_body)
     end
+  end
+
+  defp autopaginate(response = %HTTPotion.Response{}, _, _) do
+    handle_error(response)
+  end
+
+  defp handle_response(response = %HTTPotion.Response{status_code: status_code}, expected_code) do
+    if expected_code == status_code do
+      {:ok, response |> deserialize_one}
+    else
+      handle_error(response)
+    end
+  end
+
+  defp handle_error(response = %HTTPotion.Response{status_code: status_code}) do
+    {:error, status_code, response |> BookingsyncApiClientV3.Deserializer.extract_body}
   end
 
   defp deserialize_one(response) do
@@ -143,4 +170,3 @@ defmodule BookingsyncApiClientV3.Client do
     Regex.run(~r/(?<=\<)(.*?)(?=\>)/, link_expression) |> Enum.at(0)
   end
 end
-
