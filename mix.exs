@@ -35,7 +35,7 @@ defmodule BookingsyncApiClientV3.Mixfile do
   defp deps do
     [
       {:httpotion, "~> 2.2.0"},
-      {:json, "~> 0.3.0" },
+      {:json, "~> 0.3.0"},
       {:exvcr, "~> 0.7", only: :test}
     ]
   end

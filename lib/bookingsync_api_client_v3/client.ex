@@ -25,7 +25,7 @@ defmodule BookingsyncApiClientV3.Client do
   end
 
   def delete(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id) do
-    response = request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id)
+    request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id)
     :ok
   end
 
@@ -77,15 +77,15 @@ defmodule BookingsyncApiClientV3.Client do
   end
 
   defp perform_get_for_index_action(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint) do
-    request :get, data, authorization_header(oauth_token), endpoint
+    request(:get, data, authorization_header(oauth_token), endpoint)
   end
 
-  defp autopaginate(%HTTPotion.Response{body: json_body, headers: %HTTPotion.Headers{hdrs: headers}}, data, current_body) do
+  defp autopaginate(response = %HTTPotion.Response{headers: %HTTPotion.Headers{hdrs: headers}}, data, current_body) do
     next_link = headers
     |> extract_link
     |> format_next_link
 
-    { :ok, body_from_response } = json_body |> JSON.decode
+    body_from_response = response |> BookingsyncApiClientV3.Deserializer.extract_body
 
     resource_name = body_from_response |> BookingsyncApiClientV3.ResourceName.extract_from_body
     merged_resources = (current_body[resource_name] || []) ++ body_from_response[resource_name]
