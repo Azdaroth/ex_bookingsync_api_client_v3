@@ -23,7 +23,7 @@ defmodule BookingsyncApiClientV3.Deserializer do
   end
 
   def extract_body(%HTTPotion.Response{body: json_body}) do
-    { ok, body_from_response} = json_body |> JSON.decode
+    {:ok, body_from_response} = json_body |> JSON.decode
     body_from_response
   end
 end

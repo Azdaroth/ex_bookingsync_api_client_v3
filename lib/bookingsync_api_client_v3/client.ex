@@ -8,56 +8,92 @@ defmodule BookingsyncApiClientV3.Client do
     {:ok, result}
   end
 
-  def get(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id) do
+  def get(data = %BookingsyncApiClientV3.Data{
+                    oauth_token: oauth_token
+                  }, endpoint, id) do
     response = request(:get, data, authorization_header(oauth_token), endpoint, id)
     {:ok, response |> deserialize_one}
   end
 
-  def post(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, body) do
-    response = request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, body)
+  def post(data = %BookingsyncApiClientV3.Data{
+                    oauth_token: oauth_token
+                  }, endpoint, body) do
+    response = request(:post, data,
+      jsonapi_content_type ++ authorization_header(oauth_token), endpoint, body)
     {:ok, response |> deserialize_one}
   end
 
-  def post(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, scope, scope_id, endpoint, body) do
-    response = request(:post, data, jsonapi_content_type ++ authorization_header(oauth_token), scope, scope_id, endpoint, body)
+  def post(data = %BookingsyncApiClientV3.Data{
+                    oauth_token: oauth_token
+                  }, scope, scope_id, endpoint, body) do
+    response = request(:post, data,
+      jsonapi_content_type ++ authorization_header(oauth_token), scope, scope_id, endpoint, body)
     {:ok, response |> deserialize_one}
   end
 
   def patch(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id, body) do
-    response = request(:patch, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id, body)
+    response = request(:patch, data,
+      jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id, body)
     {:ok, response |> deserialize_one}
   end
 
-  def delete(data = %BookingsyncApiClientV3.Data{oauth_token: oauth_token}, endpoint, id) do
-    request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token), endpoint, id)
+  def delete(data = %BookingsyncApiClientV3.Data{
+                      oauth_token: oauth_token
+                    }, endpoint, id) do
+    request(:delete, data, jsonapi_content_type ++ authorization_header(oauth_token),
+      endpoint, id)
     :ok
   end
 
-  def request_with_url(method, %BookingsyncApiClientV3.Data{oauth_token: oauth_token, timeout: timeout}, url) do
-    HTTPotion.request method, url, [headers: authorization_header(oauth_token), timeout: timeout]
+  def request_with_url(method, %BookingsyncApiClientV3.Data{
+                                  oauth_token: oauth_token,
+                                  timeout: timeout
+                                }, url) do
+    HTTPotion.request method, url, [headers: authorization_header(oauth_token),
+      timeout: timeout]
   end
 
-  defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, endpoint) do
-    HTTPotion.request method, generate_url(base_url, endpoint), [headers: headers, timeout: timeout]
+  defp request(method, %BookingsyncApiClientV3.Data{
+                          base_url: base_url,
+                          timeout: timeout
+                        }, headers, endpoint) do
+    HTTPotion.request method, generate_url(base_url, endpoint),
+      [headers: headers, timeout: timeout]
   end
 
-  defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, endpoint, id) when is_integer(id) do
-    HTTPotion.request method, generate_url(base_url, endpoint, id), [headers: headers, timeout: timeout]
+  defp request(method, %BookingsyncApiClientV3.Data{
+                          base_url: base_url,
+                          timeout: timeout
+                        }, headers, endpoint, id) when is_integer(id) do
+    HTTPotion.request method, generate_url(base_url, endpoint, id),
+      [headers: headers, timeout: timeout]
   end
 
-  defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, endpoint, body) do
+  defp request(method, %BookingsyncApiClientV3.Data{
+                          base_url: base_url,
+                          timeout: timeout
+                        }, headers, endpoint, body) do
+    {:ok, encoded_body} = body |> JSON.encode
+    HTTPotion.request method, generate_url(base_url, endpoint), [body: encoded_body,
+    headers: headers, timeout: timeout]
+  end
+
+  defp request(method, %BookingsyncApiClientV3.Data{
+                          base_url: base_url,
+                          timeout: timeout
+                        }, headers, endpoint, id, body) when is_integer(id) do
     { :ok, encoded_body } = body |> JSON.encode
-    HTTPotion.request method, generate_url(base_url, endpoint), [body: encoded_body, headers: headers, timeout: timeout]
+    HTTPotion.request method, generate_url(base_url, endpoint, id), [body: encoded_body,
+    headers: headers, timeout: timeout]
   end
 
-  defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, endpoint, id, body) when is_integer(id) do
+  defp request(method, %BookingsyncApiClientV3.Data{
+                          base_url: base_url,
+                          timeout: timeout
+                        }, headers, scope, scope_id, endpoint, body) do
     { :ok, encoded_body } = body |> JSON.encode
-    HTTPotion.request method, generate_url(base_url, endpoint, id), [body: encoded_body, headers: headers, timeout: timeout]
-  end
-
-  defp request(method, %BookingsyncApiClientV3.Data{base_url: base_url, timeout: timeout}, headers, scope, scope_id, endpoint, body) do
-    { :ok, encoded_body } = body |> JSON.encode
-    HTTPotion.request method, generate_url(base_url, scope, scope_id, endpoint), [body: encoded_body, headers: headers, timeout: timeout]
+    HTTPotion.request method, generate_url(base_url, scope, scope_id, endpoint), [
+      body: encoded_body, headers: headers, timeout: timeout]
   end
 
   defp authorization_header(token) do
@@ -78,7 +114,6 @@ defmodule BookingsyncApiClientV3.Client do
     |> format_next_link
 
     body_from_response = response |> BookingsyncApiClientV3.Deserializer.extract_body
-
     resource_name = body_from_response |> BookingsyncApiClientV3.ResourceName.extract_from_body
     merged_resources = (current_body[resource_name] || []) ++ body_from_response[resource_name]
     updated_body = Map.put(body_from_response, resource_name, merged_resources)
