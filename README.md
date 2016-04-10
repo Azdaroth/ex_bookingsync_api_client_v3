@@ -1,4 +1,4 @@
-# BookingsyncApiClientV3 [![Build Status](https://travis-ci.org/Azdaroth/ex_bookingsync_api_client_v3.svg?branch=master "Build Status")]((https://travis-ci.org/Azdaroth/ex_bookingsync_api_client_v3))
+# BookingsyncApiClientV3 [![Build Status](https://travis-ci.org/Azdaroth/ex_bookingsync_api_client_v3.svg?branch=master)](https://travis-ci.org/Azdaroth/ex_bookingsync_api_client_v3) [![Coverage Status](https://coveralls.io/repos/github/Azdaroth/ex_bookingsync_api_client_v3/badge.svg?branch=master)](https://coveralls.io/github/Azdaroth/ex_bookingsync_api_client_v3?branch=master)
 
 Elixir BookingSync (https://www.bookingsync.com) API v3 client. Find more at: http://developers.bookingsync.com
 
