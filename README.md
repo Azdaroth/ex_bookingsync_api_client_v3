@@ -35,7 +35,7 @@ For every request you will need to pass `BookingsyncApiClientV3.Data` struct. He
 ``` iex
 %BookingsyncApiClientV3.Data{
   base_url: "https://bookingsync.dev", # required
-  oauth_token: "MY_SECRET_TOKEN", # required
+  oauth_token: "MY_ACCESS_TOKEN", # required
   timeout: 50_000 # not required, 10_000 (10 s) is the default value
 }
 ```
@@ -56,7 +56,7 @@ The result for any request is one of the following options:
 Here some examples of requests:
 
 ``` iex
-data = %BookingsyncApiClientV3.Data{base_url: "http://bookingsync.dev", oauth_token: "MY_SECRET_TOKEN"}
+data = %BookingsyncApiClientV3.Data{base_url: "http://bookingsync.dev", oauth_token: "MY_ACCESS_TOKEN"}
 
 # index action, performs autopagination if `next` are available
 data |> BookingsyncApiClientV3.Client.get("bookings")
@@ -107,13 +107,13 @@ mix test
 If you need to record any VCR cassette, you need to provide `BOOKINGSYNC_OAUTH_ACCESS_TOKEN` ENV variable:
 
 ```
-BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_SECRET_TOKEN mix test
+BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN mix test
 ```
 
 By default `http://bookingsync.dev` URL will be used, which can be customized with `BOOKINGSYNC_URL` ENV variable:
 
 ```
-BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_SECRET_TOKEN BOOKINGSYNC_URL=https://bookingsync.dev mix test
+BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN BOOKINGSYNC_URL=https://bookingsync.dev mix test
 ```
 
 - Submit pull request.
