@@ -22,7 +22,7 @@ end
 
 - Fetch dependencies:
 
-```
+``` sh
 mix deps.get
 ```
 
@@ -216,26 +216,39 @@ You can also fetch relationships from single resource:
      "shower_count" => 0, "updated_at" => "2015-09-01T09:19:46Z",
      "wc_count" => 0}], resource_name: "bathrooms"}}
 ```
-## Contributing
 
-- Fork this repo.
+## Testing
 
-- Install dependencies and run tests:
+- Install dependencies:
 
+``` sh
+mix deps.get
 ```
+
+- run tests:
+
+``` sh
 mix test
 ```
 
+### Record VCR cassettes
+
 If you need to record any VCR cassette, you need to provide `BOOKINGSYNC_OAUTH_ACCESS_TOKEN` ENV variable:
 
-```
+``` sh
 BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN mix test
 ```
 
 By default `http://bookingsync.dev` URL will be used, which can be customized with `BOOKINGSYNC_URL` ENV variable:
 
-```
+``` sh
 BOOKINGSYNC_OAUTH_ACCESS_TOKEN=MY_ACCESS_TOKEN BOOKINGSYNC_URL=https://bookingsync.dev mix test
 ```
 
-- Submit pull request.
+## Contributing
+
+- **Fork away**
+- **Create topic branches.** Don't ask us to pull from your master branch.
+- **Add tests!** Make sure that your patch is including tests.
+- **Document any change in behaviour.** Make sure the README and any other relevant documentation are kept up-to-date.
+- **Send coherent history.** Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before sending them to us.
